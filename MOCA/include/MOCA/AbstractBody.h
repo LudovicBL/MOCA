@@ -56,9 +56,14 @@ public:
 
     // Getters et setters
     double getMass() const { return _mass; }
+    /**@brief Les fonctions precedees de "uptd" (updated) s'occupent de renvoyer la variable
+    * membre correspondate a jour
+    *(la recalcule en fonction des autres parametres inhérents)
+    *@author LBL
+    **/
     void uptdSumForces();//maj _sumForces
-    const arma::vec3 &getSumForces() const {return _sumForces;}
     void uptdSumImpuls();//maj _sumImpuls
+    const arma::vec3 &getSumForces() const {return _sumForces;}
     const arma::vec3 &getSumImpuls() const {return _sumImpuls;}
     const arma::vec3 getAcceleration();
     const arma::vec3 &getPosition() const { return _position; }

@@ -10,6 +10,7 @@ AbstractBody::~AbstractBody() {}
 
 void AbstractBody::applyImpulse(const vec3 &imp) {
     _impulsions.push_back(vec3(imp));
+    _sumImpuls = _sumImpuls + imp;
 }
 
 uint AbstractBody::applyForce(const arma::vec3 &force) {
@@ -33,24 +34,28 @@ void AbstractBody::removeForce(uint fid) {
 }
 
 void AbstractBody::updateBody(double timeStep) {
-  //on change la velocite selon les impulsions
-  this.setVelocity()
-  //l'integration "velocity verlet" s'occupe du mouvement rectiligne
-  Integrator::verlet(this, timeStep);
-  /*mouvement angulaire*/
+    //on change la velocite selon les impulsions
+    _velocity[0] = (_velocity[0]*_mass + _sumImpuls[0])/_mass;
+    _velocity[1] = (_velocity[1]*_mass + _sumImpuls[1])/_mass;
+    _velocity[2] = (_velocity[2]*_mass + _sumImpuls[2])/_mass;
+
+    //l'integration "velocity verlet" s'occupe du mouvement rectiligne
+    Integrator::verlet(this, timeStep);
+    /*mouvement angulaire*/
 }
 
+
 void AbstractBody::uptdSumForces(){
-  _sumForces = vec(3, fill::zeros);
-  for(auto it = _forces.begin(); it != _forces.end(); it++){
+    _sumForces = vec(3, fill::zeros);
+    for(auto it = _forces.begin(); it != _forces.end(); it++){
     _sumForces = _sumForces + _forces[it];
-  }
+    }
 }
 void AbstractBody::uptdSumImpuls(){
-  _sumImpuls = vec(3, fill::zeros);
-  for(auto it = _impulsions.begin(); it != _impulsions.end(); it++){
+    _sumImpuls = vec(3, fill::zeros);
+    for(auto it = _impulsions.begin(); it != _impulsions.end(); it++){
     _sumImpuls = _sumImpuls + _impulsions[it];
-  }
+    }
 }
 
 
@@ -67,6 +72,7 @@ void AbstractBody::setPosition(double x, double y, double z) {
     _position[1] = y;
     _position[2] = z;
 }
+
 
 void AbstractBody::setVelocity(double vx, double vy, double vz) {
     _velocity[0] = vx;
