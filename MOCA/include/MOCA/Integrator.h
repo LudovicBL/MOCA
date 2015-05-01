@@ -25,7 +25,7 @@ class Integrator {
       *  vitesse initiale v(t)
       *  accélération a(t) et a(t+step)
       */
-      static arma::vec3 verlet(arma::vec3 &x, arma::vec3 &v, arma::vec3 a, arma::vec3 a2 double);
+      static arma::vec3 verlet(arma::vec3 &x, arma::vec3 &v, arma::vec3 a, arma::vec3 a2, double step);
       static arma::vec3 verlet(AbstractBody &body, double step);
 
   private:
